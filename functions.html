@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Funciones Javascript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Distintas formas de definir una funcion en JavaScript</h1>
+    </body>
+    <script>
+        /* 
+            Cuando estemos trabajando con funciones es 
+            importante que diferencies entre parámetro y argumento. 
+            Un parámetro es/son la/s variables que definimos cuando creamos 
+            la función. Y los argumentos son los datos que pasamos a 
+            la función cuando la invoquemos. Serán los valores de los 
+            parámetros de la función.
+        */
+        
+        /**
+         * Function declaration: es la funcion clasica que declaramos con la palabra 
+         * reservada function seguido del nombre de la funcion y entre parentesis
+         * los parametros que recibe si es que recibira algun parametro. Luego el cuerpo
+         * de la funcion va entre llaves.
+         * */
+        //la caracteristica mas importante de este tipo de funciones 
+        //es que son compatibles con el hoisting, pudiendo ser 
+        //invocadas en cualquier parte de nuestro codigo
+        function suma(a=0,b=0){
+            return console.log(a+b);
+        }
+
+        suma(3,6);// => 9
+        //en caso de que la funcion este vacia devuelve el valor "undefined"
+        function nodefinida(){
+
+        }
+        console.log(nodefinida());// => undefined
+
+        /**
+         * Function expression: este tipo de funcion es similar a la anterior
+         * pero se diferencia en que la definicion de la misma no cominza con la palabra function
+         * y el nombre de la misma es opcional.
+         * */
+
+        //puede ser asignada a una variable
+        /* Si al crear nuestra función no 
+        utilizamos un nombre para la misma 
+        estaremos creando una función anonima.
+        Este tipo de funciones no son compatibles
+        con el hoisting por lo que si invocas
+        la funcion antes de su declaracion
+        obtendremos un error */
+        const sumar = function(a,b){
+            return console.log(a+b);
+        }
+        sumar(3,6); // => 9
+
+        //puede ser usada como un metodo de un objeto
+        myObjeto = {
+            suma: function(a,b){
+                return console.log(a+b);
+            }
+        }
+        myObjeto.suma(3,6);
+        
+        //se puede utilizar como un callback
+        //.callback(function(...) { ... })
+
+
+        /**
+         * IIFE (Immediately Invoked Function Expression):  este tipo de funcion
+         * se utilizan cuando queremos obtener un resultado inmediaro llamando 
+         * a la funcion una unica vez. Esta funcion se ejecuta inmediatamente y 
+         * no es accesible posteriormente.
+         * */
+
+        (function (){
+            let mostrarNombre = "DanielSan";
+            return console.log(`Hola ${mostrarNombre}`);
+        })()
+        //cualquier tipo de variable que definamos dentro de esta funcion
+        //no sera accesible desde fuera y si intentamos invocar esa variable
+        //no dara un error de que no esta definida
+        
+        /**
+         * Shorthand method definition: este tipo de funcion puede ser utilizada
+         * como un metodo en la declaracion de objetos o en las clases de
+         * ECMAScript 6. Se crean asignando un nombre seguido de parentesis con
+         * sus respectivos parametros y el cuerpo de la funcion entre llaves
+         * */
+        //como vemos no se utiliza la palabra function pero si la colocasemos
+        //tampoco estaria mal ni nos marcaria error, ya que esta forma de definir
+        //una funcion es solo un metodo mas corto y facil de escribir
+        const personas = {
+            listaDePersonas: [],
+            addPersona(p){
+                this.listaDePersonas.push(p);
+            },
+            saludarPersona(index){
+                return console.log(`Hola soy ${this.listaDePersonas[index]}`);
+            }
+        };
+
+        personas.addPersona("Pablito");
+        personas.saludarPersona(0);
+
+        /**
+         * Arrow function: este tipo de funciones estan disponibles a partir de ECMAScript 6
+         * y se crean primero definiendo la lista de parametros entre parentesis seguido
+         * de una flecha => y acontinuacion entre llaves el cuerpo de la funcion.
+         * */
+
+        /**
+         * Las "arrow function" no crean su propio contexto al ejecutarse. 
+         * Al contrario que las "function expression" o 
+         * las "function declaration" que crea su propio contexto.
+         * 
+         * Las "arrow function" son anónimas.
+         * 
+         * El objeto arguments no se encuentra en el contexto de la función.
+         * 
+         * Si al definir la función no utilizamos el símbolo de las llaves. 
+         * La función devolverá como resultado de la función el resultado 
+         * de la ejecución de la instrucción que hayamos indicado a continuacion.
+         */
+
+        const saludar = (nombre) => {
+            return console.log(`Hola soy ${nombre}`);
+        }
+
+        saludar('Pepe') // => Hola soy Pepe
+
+        // Se puede compactar un poco el código quedando asi...
+        const saludar2 = (nombre) => console.log(`Hola soy  ${nombre}`);
+        //en este caso se puede eliminar la palabra return y las llaves
+        // el valor que retorna es el resultado de la instruccion que
+        //esta a continuacion
+        saludar2('Pepe');  // => Hola soy Pepe
+
+        /* Hasta aqui todas las funciones descritas se ejecutan completamente hasta
+        encontrar un return, lanzar un error o la finalizacion del
+        codigo en su interior y las instrucciones que se encuentran despues
+        del return o el error no se ejecutan */
+        
+        /**
+         * Generator function: la caracteristica de esta funcion es que 
+         * nos permite finalizar o parar la ejecucion del codigo e incluso
+         * salir de la funcion en un punto dentro del conjunto de instrucciones
+         * que la forman y retornar posteriormente el resultado hasta el punto en el 
+         * que paramos anteriormente. La sintaxis de esta funcion es igual a la 
+         * function declaration o function expression, solo debemos usar el simbolo "*"
+         * asterisco al comiendo de la definicion de nuetra funcion. 
+         * */
+
+        /**
+         *  Otra diferencia de estas funciones es que siempre retorna un objeto con la 
+         * siguiente estructura cada vez que invoquemos a la función next().
+         * 
+         * { 
+         *      value: any,
+         *      done: true|false
+         * }
+         * 
+         * Como podemos observar el objeto tiene dos propiedades. 
+         * Values, qué es el valor actual del objeto y done que 
+         * nos indica si la función a finalizado o no.
+        */
+        
+        function *generatorFunction()
+        { 
+            console.log('Ejemplo generator Function.');
+            // yield. Salimos de la función.
+            // La propiedad value es igual a 'Un kit kat'
+            yield 'Un kit kat';  
+
+            console.log(' ¿ Continuamos ?');  
+            // yield. Volvemos a salir de la función.
+            // La propiedad value es igual a 'Fin del ejemplo'
+            yield 'Fin del ejemplo';
+
+        }
+
+        const gen = generatorFunction();
+
+        console.log(gen.next().value);                    
+        console.log('La función se encuentra pausada');        
+        console.log(gen.next().value);
+        console.log(gen.next().value);
+
+        // El resultado de la ejecución sería el siguiente: 
+        // => Ejemplo generator Function.
+        // => Un kit kat
+        // => La función se encuentra pausada
+        // => ¿ Continuamos ?
+        // => Fin del ejemplo
+        // => undefined    
+
+        /* 
+            La instrucción yield nos retorna un objeto. Cuyas propiedades son 
+            el texto que enviamos 'Un kit kat' en value, y false 
+            en la propiedad done.
+            Luego de que se ejecuta yield nuestra funcion queda en pausa
+            y podemos ejecutar alguna otra instruccion que queramos.
+            Luego de ejecutar nuetras instrucciones podemos retornar 
+            con la ejecucion de nuetra funcion.
+            Y asi sucesivamente hasta que la funcion se quede sin 
+            yield para ejecutar. UNa vez que llegue a este punto, la
+            propiedad "done" retornara false por lo que concluye 
+            la funcion.
+        */
+
+        /**
+         * Function constructor: este tipo de funcion es bastante inusual 
+         * pero puede llegar a ser util, en javascript las funciones son 
+         * objetos de primera clase, esto quiere decir que se pueden crear
+         * nuevas funciones durante la ejecucion del programa.
+         * Una funcion en javascript posee el constructor function, 
+         * por esto podemos crear una variable que invoque a un objeto
+         * Function. Cuando invoquemos s este objeto podemos enviar
+         * los argumentos que deseemos, los primeros n argumentos seran
+         * los parametros de nuestra funcion y el ultimo argumento
+         * sera el codigo de la funcion.
+         */
+
+        const sumaFunction = new Function('numero_1', 'numero_2', 
+        'return console.log(numero_1 + numero_2)'
+        );
+
+        // Ejecutamos nuestra función.
+        sumaFunction(3, 6)// => 9
+
+        /**
+         * Conclusion: En función de la situación en la que nos 
+         * encontremos o el problema que queramos resolver será 
+         * mejor utilizar un tipo de funcion u otra.
+        */
+    
+    </script>
+</html>

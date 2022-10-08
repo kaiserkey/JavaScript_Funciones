@@ -1,0 +1,1 @@
+### Codigo util de javascript
