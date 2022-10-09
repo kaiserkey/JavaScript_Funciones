@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Hoisting en JavaScript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Hoisting JavaScript</h1>
+    </body>
+    <script>
+        /**
+         * En JavaScript, el hoisting te permite 
+         * usar funciones y variables antes de que se hayan declarado
+         */
+
+        //Este codigo genera undefined a pesar de que la variable 
+        //se define despues
+        /* console.log(foo);
+        var foo = 'foo';
+        console.log(foo); // => foo */
+
+        /* 
+            Esto se debe a que el intérprete de JavaScript divide la declaración 
+            y asignación de funciones y variables: JavaScript "hoists" o 
+            "alza" tus declaraciones a la parte superior de su scope
+            (ámbito) antes de la ejecución.
+            A esto se le llama hoisting, y nos permite usar foo antes 
+            de su declaración.
+        */
+
+        //Hoisting de variables en JavaScript
+        //declaracion
+        /* var foo;
+        let bar;
+        //asignacion
+        foo = 'foo';
+        bar = "bar"; */
+
+        //combinar la declaracion y asignacion en un solo paso
+        /* var foo = 'foo';
+        let bar = 'bar';
+        const baz = 'baz'; */
+
+        /*  
+            El hoisting de variables actúa de manera diferente 
+            dependiendo de cómo se declare la variable.
+            Hoisting de variables con var
+            Cuando el intérprete hace hoisting de una variable 
+            declarada con var, inicializa su valor a undefined
+        */
+        /* console.log(foo); // undefined
+        var foo = 'bar';
+        console.log(foo); // "bar" */
+        /*hoisting proviene de que el intérprete de JavaScript 
+        divida la declaración y la asignación de variables
+        Podemos lograr lo mismo manualmente si dividimos 
+        la declaración y la asignación en dos pasos:
+        var foo;
+        console.log(foo); // undefined
+        foo = 'foo';
+        console.log(foo); // "foo"
+
+        El uso de una variable no declarada nunca mostrará 
+        un ReferenceError en lugar de un undefined
+        Este comportamiento es una parte inusual de JavaScript y 
+        puede conducir a errores. Por lo general, no es recomendable 
+        usar una variable antes de que sea declarada.
+
+        Declarar variables con let y const, introducidas en ECMAScript 2015, 
+        cambia este comportamiento.
+        */
+
+        //Hoisting de variables con let y const
+        /* 
+            Las variables declaradas con let y const también reciben 
+            hoisting, pero no son inicializadas con un valor por defecto. 
+            Acceder a una variable declarada con let o const antes de que 
+            sea declarada resulta en un ReferenceError
+        */
+        /* console.log(foo); // Uncaught ReferenceError: Cannot access 'foo' before initialization
+        let foo = 'bar';  // lo mismo para variables declaradas con const */
+
+        /* 
+            Observa que el intérprete sigue haciendo hoisting a foo: 
+            el mensaje de error nos dice que la variable se inicializa 
+            en algún lugar
+
+            La razón por la que obtenemos un error de referencia cuando 
+            intentamos acceder a una variable declarada con let o const 
+            antes de su declaración se debe a la zona muerta temporal
+
+            La TDZ comienza al principio del ámbito de la variable 
+            y finaliza cuando se declara. El acceso a la variable 
+            en esta zona TDZ lanza un ReferenceError
+
+            // Comienzo de TDZ de foo
+            let bar = 'bar';
+            console.log(bar); // "bar"
+
+            console.log(foo); // ReferenceError porque estamos en la TDZ de foo
+
+            let foo = 'foo';  // Final de TDZ de foo
+
+            La TDZ también está presente en los parámetros de función 
+            predeterminados (por defecto), que se evalúan de izquierda 
+            a derecha. En el siguiente ejemplo, bar está en la zona TDZ 
+            hasta que se establece su valor predeterminado
+
+            function foobar(foo = bar, bar = 'bar') {
+                console.log(foo);
+            }
+            foobar(); // Uncaught ReferenceError: Cannot access 'bar' before initialization
+
+            Pero este código funciona porque podemos acceder a foo desde fuera de su TDZ
+
+            function foobar(foo = 'foo', bar = foo) {
+                console.log(bar);
+            }
+            foobar(); // "foo"
+
+            El uso de una variable let o const como operando del operador  
+            typeof en la TDZ arrojará un error. 
+            Este comportamiento es consistente con los otros casos de let 
+            y const que hemos visto en la TDZ. Encontramos un ReferenceError 
+            porque foo es declarada, pero no inicializada – 
+            debemos tener en cuenta que la estamos usando antes de la inicialización.
+
+            Debido a la confusión que el hoisting con variables var puede 
+            crear, es mejor evitar usar las variables antes de que sean 
+            declaradas.  Si estás escribiendo código en un proyecto greenfield,
+            deberías usar let y const para que esto se cumpla.
+
+            Si estás trabajando en una base de código anterior o tienes 
+            que usar var por otros motivos, MDN recomienda que escribas 
+            las declaraciones var lo más cerca posible de la parte superior 
+            de su scope. Con esto se consigue que el scope de las variables 
+            sea más claro.
+
+            También puedes considerar usar la regla de ESLint 
+            no-use-before-define, que asegura que no se use una 
+            variable antes de su declaración.
+        */
+
+        //La zona muerta temporal
+
+
+    </script>
+</html>

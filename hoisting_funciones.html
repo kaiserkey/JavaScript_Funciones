@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Hoisting Funciones JavaScript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Hoisting Funciones JavaScript</h1>
+        <script>
+            /* 
+            Las declaraciones de funciones son sometidas a hoisting. 
+            Esto nos permite llamar a funciones antes de que sean definidas. 
+            Por ejemplo, el código siguiente termina con éxito y devuelve  "foo"
+
+            foo(); // "foo"
+
+            function foo() {
+                console.log('foo');
+            }
+
+            Hay que tener en cuenta que solamente se hace hoisting a las declaraciones 
+            de función, no a las expresiones de función.
+
+            Si intentamos llamar a la variable a la que se asignó la 
+            expresión de la función, obtendremos un  TypeError o 
+            ReferenceError, dependiendo del ámbito de la variable
+
+            foo(); // Uncaught TypeError: foo is not a function
+            var foo = function () { }
+
+            bar(); // Uncaught ReferenceError: Cannot access 'bar' before initialization
+            let bar = function () { }
+
+            baz(); // Uncaught ReferenceError: Cannot access 'baz' before initialization
+            const baz = function () { }
+
+            Esto difiere de llamar a una función que nunca ha sido declarada,
+            que arroja una ReferenceError
+
+            foo(); // Uncaught ReferenceError: baz is not defined
+
+
+            El Hoisting de funciones es útil porque podemos dejar la 
+            implementación de la función más abajo en el archivo y dejar 
+            que el lector se concentre en lo que está haciendo el código.
+            En otras palabras, podemos abrir un archivo y ver qué hace el
+            código sin entender primero cómo está implementado.
+
+            reiniciarPuntos();
+            dibujarTablero();
+            poblarTablero();
+            comenzarJuego();
+
+            function reiniciarPuntos() {
+                console.log("Reinicializando puntos");
+            }
+
+            function dibujarTablero() {
+                console.log("Dibujando tablero");
+            }
+
+            function poblarTablero() {
+                console.log("Poblando tablero");
+            }
+
+            function comenzarJuego() {
+                console.log("Comenzando juego");
+            }
+
+            Inmediatamente, tenemos una idea de lo que hace este 
+            código sin tener que leer todas las declaraciones de funciones.
+
+            Sin embargo, el uso de funciones antes de su declaración es 
+            una cuestión de preferencia personal. Algunos desarrolladores, 
+            como Wes Bos, prefieren evitar esto y colocar funciones en módulos
+            que se pueden importar según sea necesario.
+
+            La guía de estilo de Airbnb lleva esto más allá y fomenta las 
+            expresiones de función nombradas sobre las declaraciones para
+            evitar la referencia antes de la declaración
+
+            Las declaraciones de funciones estan sometidas a hoisting, 
+            lo que significa que es fácil, demasiado fácil, hacer referencia 
+            a la función antes de que se defina en el archivo. Esto perjudica 
+            la legibilidad y la facilidad de mantenimiento.
+
+            Si encuentras que la definición de una función es lo 
+            suficientemente grande o compleja como para interferir con 
+            la comprensión del resto del archivo, entonces quizás sea el 
+            momento de extraerla a su propio módulo.
+
+            */
+        </script>
+    </body>
+</html>
