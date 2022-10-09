@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>CallBack Funciones</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>CallBack Funciones</h1>
+        <button id="callback-btn">Haz clic aqui</button>
+        <script>
+            /* 
+                En JavaScript, las funciones son objetos. 
+                ¿Podemos pasar objetos a las funciones como parámetros? Sí.
+                Así, también podemos pasar funciones como parámetros a otras 
+                funciones y llamarlas dentro de las funciones externas. 
+
+            */
+
+            function imprimir(callback) {  
+                callback();
+            }
+
+            /* 
+                La función imprimir( ) toma otra función como parámetro 
+                y la llama en su interior. Esto es válido en JavaScript y lo 
+                llamamos "callback". Así que una función que 
+                se pasa a otra función como parámetro es una función callback.
+
+                JavaScript ejecuta el código secuencialmente en orden descendente. 
+                Sin embargo, hay algunos casos en los que el código se ejecuta 
+                (o debe ejecutarse) después de que ocurra otra cosa y también de
+                forma no secuencial. Esto se llama programación asíncrona.
+
+                Los callbacks aseguran que una función no se va a ejecutar antes de que se 
+                complete una tarea, sino que se ejecutará justo después de 
+                que la tarea se haya completado. Nos ayuda a desarrollar código 
+                JavaScript asíncrono y nos mantiene a salvo de problemas y errores.
+
+                En JavaScript, la forma de crear una función callback es pasándola como parámetro a 
+                otra función, y luego llamarla de vuelta justo después de que haya 
+                ocurrido algo o se haya completado alguna tarea. 
+
+            */
+
+            //Cómo crear un callback
+            //Queremos registrar un mensaje en la consola, pero debe aparecer después de 3 segundos.
+
+            const mensaje = function() {  
+                console.log("Este mensaje se muestra después de 3 segundos");
+            }
+            
+            setTimeout(mensaje, 3000);
+
+            /* 
+            Hay un método incorporado en JavaScript llamado "setTimeout", 
+            que llama a una función o evalúa una expresión después de un
+            período de tiempo determinado (en milisegundos). Así que aquí, 
+            la función "mensaje" está siendo llamada después de que hayan 
+            pasado 3 segundos. (1 segundo = 1000 milisegundos)
+
+            En otras palabras, la función de mensaje está siendo llamada 
+            después de que algo sucedió (después de que pasaron 3 segundos 
+            para este ejemplo), pero no antes. Así que la función de mensaje 
+            es un ejemplo de una función callback.
+
+            También podemos definir una función directamente dentro de otra función, 
+            en lugar de llamarla. Se verá así:
+
+            setTimeout(function() {  
+                console.log("Este mensaje se muestra después de 3 segundos");
+            }, 3000);
+
+            Esto hace exactamente la misma tarea que el ejemplo anterior.
+
+            También sevpuede escribir la misma función callback como una función de flecha ES6, 
+            que es un tipo de función más reciente en JavaScript:
+
+            setTimeout(() => { 
+                console.log("Este mensaje se muestra después de 3 segundos");
+            }, 3000);
+
+            JavaScript es un lenguaje de programación basado en eventos. 
+            También utilizamos funciones callbacks para las declaraciones 
+            de eventos. Por ejemplo, digamos que queremos que los usuarios
+            hagan clic en un botón
+
+            */
+
+            document.querySelector("#callback-btn")
+                .addEventListener("click", function() {    
+                console.log("El usuario ha hecho clic en el boton.");
+            });
+
+            /* 
+            Así que aquí seleccionamos el botón primero con su id, 
+            y luego añadimos un receptor de eventos con el método 
+            addEventListener. Toma 2 parámetros. El primero es su tipo, 
+            "click", y el segundo parámetro es una función callback, que 
+            registra el mensaje cuando el botón es pulsado.
+
+            Como puedes ver, las funciones callback también se utilizan 
+            para las declaraciones de eventos en JavaScript.
+             */
+
+            
+
+        </script>
+    </body>
+</html>
