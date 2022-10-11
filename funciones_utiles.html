@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>FUnciones Utiles</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Funciones Mas Utilizadas En Javascript</h1>
+        <script>
+            /* 
+                map() es una función muy simple; se adhiere a un arreglo y nos ayuda a convertir cada 
+                elemento en otra cosa que queramos, lo que resulta en un nuevo arreglo. Podemos convertir 
+                un elemento utilizando una funcion anonima.
+            */
+            const arreglo1 = [0,1,2,3,4,5,6,7,8,9];
+            const newArreglo1 = arreglo1.map((valor, indice)=> valor + 1);
+            console.info(newArreglo1); // => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+            /* 
+                filter() es una función que como sugiere el nombre, esta función filtra una matriz según 
+                las reglas lógicas que proporcionamos y devuelve una nueva matriz que contiene elementos 
+                que satisfacen esas reglas. La función anónima a la que pasamos filter() debe devolver 
+                un valor booleano: true or false, de lo contrario no funcionara.
+                Filter() siempre, siempre, siempre devolver una matriz, vacía o no vacía, para que podamos 
+                confiar en eso y escribir nuestras comparaciones lógicas con confianza
+            */
+            const arreglo2 = [0,1,2,3,4,5,6,7,8,9];
+            const newArreglo2 = arreglo2.filter((valor, indice)=> valor%2===0);
+            console.info(newArreglo2); // => [0, 2, 4, 6, 8]
+
+            /* 
+                reduce() transforma una matriz en un solo valor. Tenga en cuenta que el valor de retorno 
+                de reduce() no es una matriz, que es el caso de map() y filter(). 
+                reduce() recibe como primer parametro una función a la que llamamos la función reductora, 
+                esta es lo que le dice a reduce() cómo convertir la matriz en un solo valor. Se necesitan 
+                dos argumentos: una variable para actuar como un acumulador y una variable para 
+                almacenar el valor actual. Y el segundo argumento es un valor inicial, 
+                como un número, una cadena, etc. El "valor inicial" que se pasa a reduce() es 
+                el valor inicial para el cálculo que deseamos utilizar.
+            */
+            const numbers = [1, 2, 3, 4, 5];
+            const factorial = numbers.reduce((acc, item) => acc * item, 1);
+            console.info("Factorial: ",factorial); // 120
+            /* 
+                some() digamos que tiene una matriz de objetos, y cada objeto representa a una persona. 
+                Desea saber si hay personas en la matriz que tienen más de 35 años. 
+                Tenga en cuenta que no es necesario contar cuántas personas son, y mucho 
+                menos recuperar una lista de ellas. Lo que estamos diciendo aquí es el 
+                equivalente a "uno o más" o "al menos uno".
+                Esta función trabaja con matrices y acepta una función de "filtrado" personalizada, 
+                devolviendo un valor booleano de true or false. 
+            */
+
+            const persons = [
+            {
+                name: 'Persona 1',
+                age: 36
+            },
+            
+            {
+                name: 'Persona 2',
+                age: 23
+            },
+            ];
+
+            if(persons.some(person => {return person.age > 35})) {
+                console.log("Se encontraron personas con edad > 35!");
+            }
+
+            /* 
+                every() devuelve un valor booleano dependiendo de si todos las los elementos de 
+                la matriz pasan la prueba dada. Por supuesto, la prueba para aprobar se proporciona 
+                como una función anónima la mayor parte del tiempo.
+                
+            */
+
+            const entries = [
+                {
+                    id: 1
+                },
+                
+                {
+                    id: 2
+                },
+                
+                {
+                    id: 3  
+                },
+            ];
+
+            if(entries.every(entry => {return Number.isInteger(entry.id) && entry.id > 0;})) {
+                console.log("Todas las entradas tienen un id valido!")
+            }
+
+            /* 
+                includes() comprueba si un determinado elemento a busar se encuentra dentro de un arreglo,
+                retorna true si lo encuentra y false de lo contrario. No funciona muy bien con objetos.
+                En caso de utilizarlo con Strings es sensible a mayusculas y minusculas.
+             */
+
+            const numbers1 = [1, 2, 3, 4, 5];
+            console.log(numbers1.includes(4));
+
+            const name = "Daniel";
+            console.log(name.includes('daniel')); // false, because first letter is in small caps
+            console.log(name.includes('Daniel')); // true, as expected
+
+            /* 
+                slice() crear una cadena más pequeña a partir de una cadena completa, toma un valor de inicio
+                y un valor de finalizacion sin tener en cuanta el valor de finalizacion a la hora de construir
+                la nueva cadena.
+            */
+            const headline = "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+            const startIndex = headline.indexOf('dolor');
+            const endIndex = headline.indexOf('consectetur');
+            const newHeadline = headline.slice(startIndex, endIndex);
+            console.log(newHeadline); // => dolor sit amet
+
+            /* 
+                splice() elimina, cambia o agrega elementos, pero modifica la matriz original. 
+                Esta "destrucción" de la matriz original por lo que puede crear grandes problemas si no 
+                tienes cuidado o no comprendes la diferencia entre una copia y una referencia de memoria 
+                en javascript. 
+            */
+
+            const items = ['eggs', 'milk', 'cheese', 'bread', 'butter'];
+            items.splice(3, 2);// splice() devuelve los elementos eliminados, por si queremos obtenerlos en una variable
+            console.log(items); // => [ 'eggs', 'milk', 'bread', 'butter' ]
+
+            /* 
+                shift() se utiliza para eliminar el primer elemento de una matriz. 
+                Se puede hacer lo mismo con splice(), pero shift() es un poco
+                más fácil de recordar e intuitivo cuando todo lo que necesita 
+                hacer es eliminar el primer elemento.
+            */
+            const items2 = ['eggs', 'milk', 'cheese', 'bread', 'butter'];
+            items2.shift()
+            console.log(items2); // => [ 'milk', 'cheese', 'bread', 'butter' ]
+
+            /* 
+                unshift() agrega un nuevo elemento al inicio de la matriz.
+            */
+
+            const items3 = ['eggs', 'milk'];
+            items3.unshift('bread')
+            console.log(items3); // => [ 'bread', 'eggs', 'milk' ]
+
+            /* 
+                fill() se puede usar para reemplazar parte o toda la matriz con el valor dado.
+             */
+
+            const heights = [1, 2, 4, 5, 6, 7, 1, 1];
+            heights.fill(0);
+            console.log(heights); //  => [0, 0, 0, 0, 0, 0, 0, 0]
+
+            const heights2 = [1, 2, 4, 5, 6, 7, 1, 1];
+            heights2.fill(0, 2, 5);
+            console.log(heights2); //  => [1, 2, 0, 0, 0, 7, 1, 1]
+            /* 
+                split() divide una cadena en un arreglo de subcadenas de la cadena original a 
+                partir de un carácter separador
+            */
+
+            let cadena = "Hola,mundo,JavaScript";
+            console.log(cadena.split(","));// => ['Hola', 'mundo', 'JavaScript']
+
+            /* 
+                substring() extrae caracteres desde un índice A hasta un índice B sin incluirlo
+            */
+
+            let cadena2 = "Hola";
+            console.log(cadena.substring(0,2)); // => Ho
+
+            /* 
+                trim() elimina espacios en blanco al inicio y al final de una cadena
+            */
+
+            let cadena3 = " Hola ";
+            console.log(cadena3.trim()); // => Hola
+
+            /* 
+                push() agrega elementos al final de un arreglo y regresa la longitud del 
+                arreglo con los nuevos elementos
+            */
+
+            const things = ['dish', 'computer', 'dog'];
+            const count = things.push('bed');
+            console.log(count, things);// => (4) ['dish', 'computer', 'dog', 'bed']
+
+            /* 
+                pop() remueve el último elemento de un arreglo y lo devuelve
+            */
+
+            const things2 = ['dish', 'computer', 'dog'];
+            const last = things2.pop();
+            console.log(last, things2)// => dog (2) ['dish', 'computer']
+
+            /* 
+                Number.toFixed() establece la cantidad de decimales que queremos definir en un número
+            */
+            var num= 12345.6789;
+            console.log(num.toFixed(2));// => 12345.68
+            
+            
+        </script>
+    </body>
+</html>
