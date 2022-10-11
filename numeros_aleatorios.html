@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Numeros Aleatorios Javascript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Numeros Aleatorios Javascript</h1>
+        <script>
+            /* 
+                Generar numeros aleatorios con javascript
+                La clase Math nos permite generar números aleatorios en Javascript, pero solamente mediante 
+                un número flotante (con decimales) entre el cero y el uno.
+
+            */
+
+            let aleatorio = Math.random();
+            console.log(aleatorio);
+
+            /* 
+                Si deseamos obtener un número aleatorio en otro rango lo podemos conseguir con un poco de matemáticas 
+                y la clase Math
+            */
+
+            function aleatorios(inferior, superior) {
+                var numPosibilidades = superior - inferior;
+                var aleatorio = Math.random() * (numPosibilidades + 1);
+                aleatorio = Math.round(aleatorio);
+                return inferior + aleatorio;
+            }
+
+            console.log(aleatorios(10,20));
+            /* 
+                UNa forma de escribir la misma funcion pero mas elegante es la siguiente
+             */
+
+            const aleatorioElegante = (min,max)=>{
+                return Math.round(Math.random() * (max-min +1) + min);
+            }
+
+            console.log(aleatorioElegante(10,20));
+
+            /* 
+                La función que hemos hecho es muy sencilla, pero funciona perfectamente para todos los tipos 
+                de intervalos que podamos pasarle, tanto con números positivos como negativos. Lo primero que 
+                hacemos es obtener el número de posibilidades restando al límite superior el inferior. Luego 
+                multiplicamos dicho numero de posibilidades por el número aleatorio obtenido (que está entre 0 y 1), 
+                con lo que obtenemos un número aleatorio entre 0 y el número de posibilidades.
+                El número tiene un montón de decimales, y en este ejemplo deseamos obtener un número entero, sin decimales. 
+                Por eso luego utilizamos el método round() de la clase Math, que redondea decimales hacia abajo. 
+                Como el número todavía está entre 0 y el número de posibilidades tenemos que sumarle el límite inferior, 
+                con lo que estará dentro del rango que deseamos. Este último valor será en que devuelva la función.
+             */
+
+        </script>
+    </body>
+</html>
