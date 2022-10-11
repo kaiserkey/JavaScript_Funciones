@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Async Await de JavaScript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Async Await de JavaScript</h1>
+        <script>
+            /* 
+                ¿Qué es el código asíncrono?
+                Por diseño, JavaScript es un lenguaje de programación sincrónico. Esto significa que, 
+                cuando el código es ejecutado, JavaScript comienza en la parte superior del archivo y 
+                ejecuta el código línea por línea hasta que termina.
+
+                El resultado de esta decisión de diseño es que sólo una cosa puede pasar en un determinado momento.
+
+                Puedes pensar en esto como si estuvieras haciendo malabares con seis pelotas pequeñas. 
+                Mientras estás haciendo malabares, tus manos están ocupadas y no puedes hacer nada más.
+
+                Es lo mismo con JavaScript: una vez que el código está corriendo, sus manos están llenas 
+                con ese código. Llamamos a este tipo de código "bloqueador". Porque está efectivamente 
+                bloqueando otro código de ser ejecutado.
+
+                Volvamos al ejemplo de los malabares. ¿Qué pasaría si quisieras agregar otra bola? En vez 
+                de seis bolas, quieres hacer malabares con siete. Esto podría ser un problema.
+
+                No quieres dejar de hacer malabares, porque estás pasándolo muy bien. Pero tampoco puedes 
+                ir a buscar otra pelota, porque significa que tendrías que parar.
+
+                ¿La solución? Delegar el trabajo a un amigo o miembro de la familia. Ellos no están haciendo 
+                malabares por lo que pueden ir a buscar otra pelota para ti, y luego lanzarla justo en el momento 
+                en que tengas una mano libre para agregar una nueva pelota a los malabares.
+
+                Así son los códigos asíncronos. JavaScript está delegando el trabajo a otra cosa, y luego se 
+                encarga de sus asuntos. Luego, cuando esté listo, recibirá los resultados del trabajo.
+
+                Bueno, sabemos que JavaScript es sincrónico y flojo. No quiere hacer todo el trabajo por si mismo, 
+                por lo que lo distribuye tareas a otra cosa.
+
+                ¿Pero quién es esta misteriosa entidad que trabaja para JavaScript? ¿ Y como es contratado 
+                para trabajar para JavaScript?
+
+                Bueno, miremos un ejemplo de código asíncrono.
+            */
+
+            const logName = () => {
+                console.log("Han")
+            }
+
+            setTimeout(logName,0)
+            console.log("Hola!!")
+
+            /* 
+                Al correr este código, aparece el siguiente resultado en la consola:
+
+                // En la consola
+                Hola!!
+                Han
+                Ok, ¿Qué está pasando?
+
+                Resulta que la forma en que trabajamos en JavaScript es usando funciones específicas del 
+                entorno y APIs, y es una fuente de gran confusión.
+
+                JavaScript siempre se ejecuta en un entorno.
+
+                A menudo este entorno es el navegador. Pero también puede ejecutarse en el servidor con NodeJS. 
+                Pero ¿Cuál es la diferencia?
+
+                La diferencia - y es importante - es que el navegador y el servidor (NodeJS), en cuanto a 
+                funcionalidad, no son equivalentes. A menudo son similares, pero no son lo mismo.
+
+                Ilustremos esto con un ejemplo. Digamos que JavaScript es el protagonista de un épico libro 
+                de fantasía. Solo un niño común de campo.
+
+                Ahora digamos que este niño campesino encontró dos armaduras especiales que le dan poderes 
+                por sobre su conocimiento.
+
+                Cuando usa la armadura "Navegador", obtiene acceso a un cierto conjunto de habilidades.
+
+                Cuando usa la armadura "Servidor", obtiene acceso a otro conjunto de habilidades.
+
+                Estos trajes tienen algunas superposiciones, porque los creadores de estos trajes tuvieron 
+                las mismas necesidades en determinados lugares, pero no en otros.
+
+                Esto es un entorno. Un lugar donde el código ejecuta, donde existen herramientas que están 
+                hechas sobre el lenguaje existente JavaScript. Estos no son parte del lenguaje, pero la línea 
+                divisoria es a menudo borrosa, porque utilizamos estas herramientas todos los días cuando 
+                escribimos código.
+
+                setTimeout, fetch y DOM son ejemplos de APIs Web. Estas son herramientas que están construidas 
+                sobre el navegador, y están disponibles para nosotros cuando el código es ejecutado.
+
+                Y como siempre ejecutamos JavaScript en un entorno, pareciera que estas son parte del lenguaje, 
+                Pero no lo son.
+
+                Por lo que si alguna vez te preguntaste por qué puedes usar fetch en JavaScript cuando lo ejecutas 
+                en el navegador (pero necesitas instalar un paquete cuando lo ejecutas en NodeJS), este es el porqué. 
+                Alguien pensó que fetch era una buena idea, y creó una herramienta para el entorno NodeJS.
+
+                ¿Confuso?, si!
+
+                Ahora finalmente podemos entender qué cosa hace el trabajo de JavaScript y como JavaScrip lo contrata 
+                para hacerlo.
+
+                Resulta que es el entorno el que hace el trabajo, y la forma en que el entorno hace el trabajo es 
+                usando las funcionalidades que pertenecen al entorno. Por ejemplo fetch o setTimeout en el entorno 
+                del navegador.
+
+                ¿Qué le pasa al trabajo?
+                Excelente, así que el entorno hace el trabajo, ¿ y luego qué?
+
+                En algún punto necesitas obtener los resultados de vuelta. Pero pensemos sobre como esto funcionaría.
+
+                Volvamos al ejemplo de los malabares del principio. Imagina que pediste una nueva pelota, y 
+                un amigo comenzó a tirarte pelotas cuando no estabas listo.
+
+                Esto sería un desastre. Tal vez tuviste suerte de agarrarlas y meterlas en tu rutina de manera 
+                efectiva. Pero existe una gran probabilidad de que se te caigan las pelotas y arruine tu rutina. 
+                ¿No sería mejor si das instrucciones estrictas sobre cuando recibir el balón?
+
+                Resulta que existen reglas estrictas sobre cuando JavaScript puede recibir el trabajo delegado.
+
+                Estas reglas están gobernadas por el Event Loop e involucra la lista de micro y macro tareas. 
+
+                https://www.freecodecamp.org/espanol/news/content/images/size/w1000/2022/07/image-6.png
+
+                Ok, cuando delegamos código asincrónico al navegador, el navegador toma y ejecuta el código y se encarga de esa carga de trabajo. Pero tal vez hay muchas tareas que se dan al navegador, por lo que necesitamos asegurarnos de que podemos priorizar estas tareas.
+
+                Aquí es donde la lista de microtareas y macrotareas entran al juego. El navegador toma el trabajo, 
+                lo hace, y luego coloca el resultado en una de estas dos listas basado en el tipo de trabajo que recibe.
+
+                Las promises, por ejemplo, son colocadas en la lista de microtareas y tienen una prioridad mayor.
+
+                Eventos y setTimeout son ejemplos de trabajos que se colocan en la lista de macrotareas, y tienen 
+                menor prioridad.
+
+                Ahora, una vez que el trabajo está listo y es colocado en alguna de estas dos listas, el Event Loop 
+                ejecutará en ambas direcciones un chequeo para revisar si JavaScript está listo o no para recibir estos 
+                resultados.
+
+                Sólo cuando JavaScript terminó de ejecutar su código sincrónico, y está preparado, el Event Loop 
+                comenzará a tomar de las listas (microtareas y macrotareas) y devolverá las funciones para que 
+                JavaScript las ejecute. 
+
+                setTimeout( () => console.log("Hola"),0)
+
+                fetch("https://algunAPI/data").then(response => response.json())
+                                            .then(data => console.log(data))
+
+                console.log("Que pasa?")
+
+                ¿Cuál sería el orden acá?
+
+                Primeramente, setTimeout es delegado al navegador, el cual hace el trabajo y coloca el resultado de la función en la lista de macrotareas.
+                En segundo lugar, fecth es delegado al navegador, el cual toma el trabajo. Este recibe la data desde el endpoit y coloca las funciones resultantes en la lista de microtareas.
+                JavaScript pone en console "Que pasa?"
+                El Event Loop revisa si JavaScript está listo o no para recibir el resultado de las listas de tareas
+                Cuando el console.log está listo, JavaScript está listo. El Event Loop toma la función en la lista de microtareas, la cual tiene una mayor prioridad, y se la da a JavaScript para ejecutarla.
+                Después de que la lista de microtareas está vacía, el callback setTimeout es sacado de la lista de macrotareas y se pasa a JavaScript para ser ejecutado.
+                
+                En la consola: 
+                    Que pasa?
+                    La data del API
+                    Hola
+
+                Promesas
+                Ahora deberías tener una buena cantidad de conocimiento acerca de cómo el código asíncrono es manejado 
+                por JavaScript en el entorno del Navegador. Así que hablemos de las promesas.
+
+                Una promesa es un constructo en JavaScript que representa un valor futuro desconocido. Conceptualmente 
+                una promesa es sólo JavaScript prometiendo retornar un valor. Este puede ser el resultado de la llamada
+                a un API, o puede ser un objeto error de una solicitud de red fallida. Estás garantizado que recibirás
+                algo.
+
+
+             */
+
+            const promise = new Promise((resolve, reject) => {
+                // Hace una nueva solicitud de red
+                if ( response.status === 200) {
+                    resolve(response.body)
+                } else {
+                    const error = {  }
+                    reject(error)
+                }
+            })
+
+            promise.then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
+
+            /* 
+                Una promesa puede tener los siguientes estados:
+
+                Cumplida (fulfilled) - acción completada satisfactoriamente
+                Rechazada (rejected) - acción fallida
+                Pendiente (pending) - ninguna de las acciones ha sido completada
+                Establecida (settled) - ha sido cumplida o rechazada
+                Una promesa recibe una función resolve y una reject, que pueden ser llamadas para gatillar 
+                alguno de estos estados.
+
+                Uno de los puntos fuertes de las promesas es que podemos encadenar funciones que queremos que 
+                ocurran en el caso de éxito (resolve) o de falla (reject):
+
+                Para registrar una función que se ejecute en caso de éxito usamos .then
+                para registrar una función que se ejecute en caso de fallo usamos .catch
+
+                // Fetch retorna una promesa
+                fetch("https://swapi.dev/api/people/1")
+                    .then((res) => console.log("Esta función es retornada cuando la solicitud es exitosa",res))
+                    .catch(err => console.log("Esta función es retornada cuando la solicitud es fallida", err))
+                    
+                // Encadenando multiples funciones
+                fetch("https://swapi.dev/api/people/1")
+                    .then((res) => hazAlgoConElResultado(res))
+                    .then((resultadoFinal) => console.log(resultadoFinal))
+                    .catch((err => hazAlgoConElError(err) )
+
+                Perfecto!, ahora demos una mirada más cerca a como se ven las cosas bajo el capó usando fetch 
+                como ejemplo:
+
+                const fetch = (url , options) => {
+                    // simplificado
+                    return new Promise((resolve, reject) => {
+                    
+                    const xhr = new XMLHttpRequest()
+                    // ... hace una solicitud
+                    xhr.onload = () => {
+                        const options = {
+                            status: xhr.status,
+                            statusText: xhr.statusText
+                            ...
+                        }
+                        
+                        resolve(new Response(xhr.response, options))
+                    }
+                    
+                    xhr.onerror = () => {
+                        reject( new TypeError("Solicitud fallida"))
+                    }
+                }
+
+                fetch("https://swapi.dev/api/people/1")
+                    // registra handleResponse para ejecutar cuando la promesa se resuelve
+                    .then(handleResponse)
+                    .catch(handleError)
+                    
+                // conceptualmente la promesa se ve de esta manera ahora: 
+                // {status: "pending", casoExito: [handleResponse], casoFallo: [handleError]}
+                    
+                const handleResponse = (response) => {
+                    // handleResponse recibirá automáticamente la respuesta porque la promesa
+                    // resuelve con un valor y automáticamente la inyecta a la función
+                    console.log(response)
+                }
+
+                const handleError = (response) => {
+                    // handleError recibirá automáticamente el error porque la promesa 
+                    // resuelve con un valor y automáticamente la inyecta a la función
+                    console.log(response)
+                }
+
+                // la promesa resolverá o rechazará haciendo que ejecute todas las funciones 
+                // registradas en los arrays respectivos inyectando el valor.
+                // Inspeccionemos el recorrido:
+
+                // 1. el evento de escucha XHR se dispara.
+                // 2. Si la respuesta es exitosa, el evento de escucha onload se gatilla
+                // 3. onload dispara la función resolve(VALOR) con un valor dado
+                // 4. resolve gatilla y organiza las funciones registradas con .then 
+
+                Entonces, podemos usar promesas para hacer trabajo asíncrono, y para asegurarnos que podemos 
+                manejar cualquier resultado de esas promesas. Esta es la propuesta de valor. Si quieres saber 
+                más sobre las promesas puedes leer sobre ellas aquí y aquí
+
+                Cuando usamos promesas, encadenamos nuestras funciones a la promesa para manejar distintos escenarios.
+
+                Esto funciona, pero todavía tenemos que manejar nuestra lógica dentro de los callbacks 
+                (funciones anidadas) una vez que obtenemos nuestros resultados de vuelta). Qué tal si pudiéramos
+                usar promesas pero escribir código que parezca sincrónico? resulta que podemos
+
+                Async/Await
+                Async/Await es una forma de escribir promesas que nos permite escribir código asincrónico, 
+                pero de manera sincrónica. Demos una mirada.
+
+                const obtenerData = async () => {
+                    const response = await fetch("https://jsonplaceholder.typicode.com/todos/1")
+                    const data = await response.json()
+                
+                console.log(data)
+                }
+
+                obtenerData()
+
+                Aquí, nada ha cambiado bajo el capó. Seguimos usando promesas para obtener la data, pero ahora 
+                parece sincrónico, y ya no tiene los bloques .then y .catch.
+
+                Async/Await realmente es sólo azúcar sintáctica que provee una forma de crear código 
+                más fácil de razonar, sin cambiar la dinámica subyacente.
+
+                Miremos como trabaja.
+
+                Async/Await nos deja usar generadores para pausar la ejecución de una función. Cuando usas 
+                async/await no estas bloqueando porque la función está devolviendo el control al programa principal.
+
+                Luego cuando la promesa resuelve estamos usamos el generador para devolver el control a 
+                la función asincrónica con el valor de la promesa resuelta.
+
+                En efecto, podemos ahora escribir código asíncrono como sin fuera sincrónico. Lo que significa que 
+                es más fácil razonarlo, y podemos usar herramientas sincrónicas para manejo de errores como try/catch:
+
+                const obtenerData = async () => {
+                    try {
+                        const respuesta = await fetch("https://jsonplaceholder.typicode.com/todos/1")
+                        const data = await respuesta.json()
+                        console.log(data)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                }
+
+                obtenerData()
+
+                Ok, ¿Ahora como lo usamos? Para usar async/await debemos anteponer la función async. 
+                Esto no la convierte en una función asíncrona, simplemente nos deja usar await dentro de ella.
+
+                Si no se usa la palabra clave async tendremos un error sintáctico (syntax error) cuando 
+                tratemos de usarla dentro de una función regular.
+
+                const obtenerData = async() => {
+                    console.log("Ahora podemos usar await en esta función")
+                }
+
+                Es por esto que no podemos usar async/await en código de alto nivel. Pero async/await siguen 
+                siendo sólo azúcar sintáctica sobre promesas. Así podemos manejar casos de alto nivel con encadenamiento 
+                de promesas:
+
+                async function obtenerData() {
+                    let respuesta = await fetch('https://apiurl.com');
+                }
+
+                // obtenerData es una promesa
+                obtenerData().then(res => console.log(res)).catch(err => console.log(err);
+                Esto muestra otro aspecto interesante acerca de async/await. Cuando definimos una función como async, esta siempre retorna una promesa.
+
+                Usar async/await puede parecer magia en un comienzo. Pero como cualquier magia, 
+                es sólo tecnología lo suficientemente avanzada que ha evolucionado a través de los años. 
+                Esperemos que ahora tengas un comprensión sólida de los fundamentos, y puedas usar async/await 
+                con confianza.
+
+                Conclusión
+                Si llegaste hasta acá, felicidades!. Recién agregaste una pieza muy importante sobre JavaScript y 
+                como este funciona con su entorno a tu caja de herramientas.
+
+                Este definitivamente es un tema confuso, y las líneas no son siempre claras. Pero espero que ahora 
+                tengas una idea de como JavaScript funciona con código asíncrono en el navegador, y un entendimiento 
+                más fuerte sobre promesas y async/await.
+            */
+        </script>
+    </body>
+</html>
