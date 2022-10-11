@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+        <title>Arreglos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>Arreglos JavaScript</h1>
+
+        <div id="main">
+            <ul>
+            <ol type="1">
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+            </ol>
+            </ul> 
+        </div>
+
+        <script>
+            /* 
+                En programación, un arreglo es una colección de elementos o cosas. 
+                Los arreglos guardan datos como elementos y los regresan cuando los necesitas.
+                Un par de corchetes [] representa un arreglo en JavaScript. Todos los elementos 
+                en un arreglo están separados por una comma ",".
+                En JavaScript, los arreglos pueden ser una colección de elementos de cualquier tipo. 
+                Esto significa que tú puedes crear un arreglo  con elementos de tipo Cadena, 
+                Boolean, Número, Objetos, e incluso otros Arreglos.
+
+            */
+
+            const mixedTypedArray = [100, true, 'text', {}, [1,2]];
+
+            /* 
+                La posición de un elemento en el arreglo es conocido como indice. 
+                En JavaScript, el indice del arreglo empieza con 0, e incrementa uno a uno con cada elemento.
+                El número de elementos en el arreglo determina su longitud.
+                Curiosamente, los arreglos de JavaScript no tienen longitud fija. Tú puedes cambiar la longitud 
+                en cualquier momento asignando un valor numérico positivo. 
+                
+                Puedes crear un arreglo de diferentes formas en JavaScript. La forma más sencilla es asignar 
+                un valor de arreglo a una variable.
+            */
+            const salad = ['🍅', '🍄', '🥦', '🥒', '🌽', '🥕', '🥑'];
+            /* 
+                Puedes acceder y traer elementos de un arreglo usando su indice, para esto necesitas usar la sintaxis 
+                de los corchetes para acceder a los elementos del arreglo.
+
+                const element = array[index];
+
+                Según el caso, debes escoger acceder a los elementos del arreglo uno por uno o en un bucle.
+
+            */
+            
+            salad[0]; // '🍅'
+            salad[2]; // '🥦'
+            salad[5]; // '🥕'
+
+            const len = salad.length;
+            salad[len - 1]; // '🥑'
+            salad[len - 3]; // '🌽'
+
+            for(let i=0; i<salad.length; i++) {
+                console.log(`Index ${i} -> ${salad[i]}`);
+            }
+
+            /* 
+                El método push() se utiliza para añadir un elemento en el arreglo. El método push() añade un 
+                elemento  al final del arreglo.
+                Si quieres añadir un elemento al inicio del arreglo, vas a necesitar  usar el método unshift().
+            */
+
+            salad.push('🥜'); // ["🍅", "🍄", "🥦", "🥒", "🌽", "🥕", "🥑", "🥜"]
+            salad.unshift('🥜'); // ["🥜", "🍅", "🍄", "🥦", "🥒", "🌽", "🥕", "🥑"]
+
+            /* 
+                La manera más sencilla de eliminar un solo elemento del arreglo es usando el método pop(). Cada vez 
+                que llamas el método pop(), este elimina un elemento al final del arreglo. Entonces este regresa 
+                el elemento eliminado  y cambia el arreglo original.
+                El método shift() sirve para eliminar un elemento desde el principio del arreglo. Como el método pop(),  
+                shift() regresa el elemento eliminado y cambia el arreglo original.
+            */
+
+            salad.pop(); // 🥜
+            salad.shift(); // 🥜
+
+            /* 
+                Es posible copiar y clonar un arreglo a un nuevo arreglo usando el metodo slice(). El método slice() no 
+                cambia el arreglo original. En cambio crea una nueva copia superficial del arreglo original.
+            */
+            const saladCopy = salad.slice();
+            console.log(saladCopy); // ['🍅', '🍄', '🥦', '🥒', '🌽', '🥕', '🥑']
+            salad === saladCopy; // returns false
+
+            /* 
+                Puedes determinar si un valor es un arreglo usando el método Array.isArray(value). Este método regresa 
+                verdadero si el valor que pasa es un arreglo
+            */
+
+            Array.isArray(['🍅', '🍄', '🥦', '🥒', '🌽', '🥕', '🥑']); // returns true
+            Array.isArray('🍅'); // returns false
+            Array.isArray({ 'tomate': '🍅'}); // returns false
+            Array.isArray([]); // returns true
+
+            /* 
+                Con ECMAScript 6 (ES6), tenemos una nueva sintaxis para extraer múltiples propiedades de un arreglo y 
+                asignarlas a variables de una sola vez. Es útil para ayudar a mantener tu código limpio y conciso. 
+                Esta nueva sintaxis es llamada desestructuración.
+
+            */
+
+            let [tomate, hongo, zanahoria] = ['🍅', '🍄', '🥕'];
+            console.log(tomate, hongo, zanahoria); // Output, 🍅 🍄 🥕
+
+            /* 
+                Puedes asignar un valor por defecto usando desestructuración cuando no hay valor o es undefined para 
+                el elemento arreglo
+            */
+
+            let [pepino , maiz = '🌽'] = ['🥒'];
+            console.log(pepino); // '🥒'
+            console.log(maiz); // '🌽'
+
+            /* 
+                Puedes saltar un elemento de un arreglo a un variable. Por ejemplo, puedes no estar interesado en 
+                todos los elementos de un arreglo. En este caso, saltarse un valor es útil.
+            */
+
+            let [lechuga, , palta] = ['🥦', '🍄', '🥑'];
+            console.log(lechuga); // '🥦'
+            console.log(palta); // '🥑'
+
+            /* 
+                En JavaScript, los arreglos se pueden tener arreglos anidados. Esto significa que un 
+                arreglo puede tener otro arreglo como elemento. 
+             */
+            let fruits = ['🍈', '🍍', '🍌', '🍉', ['🍅', '🍄', '🥕']];
+            const veg = fruits[4]; // returns the array ['🍅', '🍄', '🥕']
+            const zan = veg[2]; // returns '🥕'
+            fruits[4][2]; // returns '🥕'
+
+            let [,,,,[,,zanahorias]] = ['🍈', '🍍', '🍌', '🍉', ['🍅', '🍄', '🥕']];
+
+            /* 
+                Desde ES6, podemos usar el ... (si, tres puntos consecutivos) como sintaxis spread  y 
+                el resto de los parámetros en la desestructuración de arreglo.
+
+                Por el resto del parámetro, el  ... aparece en el lado izquierdo de desestructuración.
+                Para la sintaxis spread, el ... aparece en el lado derecho de la desestructuración.
+
+                Podemos organizar los elementos de la izquierda de un arreglo en un nuevo arreglo. 
+                El resto de los parámetros deben ser la última variable en la sintaxis de desestructuración.
+                En el ejemplo de abajo, tenemos organizados los dos primeros elementos de un arreglo a 
+                las variables tomate y hongo. El resto de los elementos son organizados a la variable 
+                rest  usando el ... La variable rest es un nuevo arreglo conteniendo los elementos sobrantes.
+            */
+
+            const [tomates, hongos, ...rest] = ['🍅', '🍄', '🥦', '🥒', '🌽', '🥕', '🥑'];
+
+            console.log(tomates); // '🍅'
+            console.log(hongos); // '🍄'
+            console.log(rest); // ["🥦", "🥒", "🌽", "🥕", "🥑"]
+
+            /* 
+                Con el operador spread, podemos crear un clon/copia del arreglo existente
+            */
+
+            const ensalada = ['🍅', '🍄', '🥦', '🥒', '🌽', '🥕', '🥑'];
+
+            const ensaladaCloned = [...ensalada];
+            console.log(ensaladaCloned); // ["🍅", "🍄", "🥦", "🥒", "🌽", "🥕", "🥑"]
+
+            ensalada === ensaladaCloned // false
+
+            /* 
+                Podemos cambiar el valor de dos variables fácilmente usando la sintaxis de desestructuración de arreglo.
+            */
+
+            let primero = '😔';
+            let segundo = '🙂';
+            [primero, segundo] = [segundo, primero];
+
+            console.log(primero);  // '🙂'
+            console.log(segundo); // '😔'
+
+            /* 
+                Podemos combinar dos arreglos y crear un nuevo arreglo con todos los elementos de ambos arreglos.
+             */
+
+            const emoticon = ['🙂', '😔'];
+            const veggies = ['🥦', '🥒', '🌽', '🥕'];
+            const emotionalVeggies = [...emoticon, ...veggies];
+            console.log(emotionalVeggies); // ["🙂", "😔", "🥦", "🥒", "🌽", "🥕"]
+
+            /* 
+                El método concat() combina uno o más arreglos y regresa un arreglo combinado. Es un método inmutable. 
+                Esto significa que no cambia(muta) un arreglo existente.
+            */
+
+            const first = [1, 2, 3];
+            const second = [4, 5, 6];
+
+            const merged = first.concat(second);
+
+            console.log(merged); // [1, 2, 3, 4, 5, 6]
+            console.log(first); // [1, 2, 3]
+            console.log(second); // [4, 5, 6]
+
+            /* 
+                Usando el método concat() podemos combinar más de dos arreglos. 
+                Podemos combinar cualquier número de arreglos con esta sintaxis:
+
+                array.concat(arr1, arr2,..,..,..,arrN);
+
+                El método join() junta todos los elementos de un arreglo usando un separador  y regresa una cadena. 
+                El separador por defecto usado para juntar  es comma (,)
+
+                Invocando el método join() en un arreglo vacío regresa una cadena vacía:
+
+                [].join() // returns ""
+             */
+            const emotions = ['🙂', '😍', '🙄', '😟'];
+
+            const joined = emotions.join(" - ");
+            console.log(joined); // "🙂,😍,🙄,😟"
+            /* 
+                El método fill() llena un arreglo con un valor estático. Puedes cambiar todos los elementos 
+                a valores estáticos o cambiar algunos pocos elementos seleccionados. 
+                Nota el método fill() cambia el arreglo original.
+            */
+
+            const colors = ['red', 'blue', 'green'];
+
+            colors.fill('pink', 1, 3); // ["red", "pink", "pink"]
+
+            /* 
+                Se puede determinar la presencia de un elemento en un arreglo usando el método includes(). 
+                Si un elemento es encontrado, el método regresa true, y de otra forma false.
+             */
+
+            const names = ['tom', 'alex', 'bob', 'john'];
+            names.includes('tom'); // returns true
+            names.includes('july'); // returns false
+            /* 
+                Puedes obtener el índice de un elemento del arreglo usando el método  indexOf(). EL cual devuelve 
+                el índice de la primera aparición de un elemento en el arreglo que coincida. Si un elemento no 
+                se encuentra, el  método indexOf() regresa -1.
+             */
+
+            const nombres = ['tom', 'alex', 'bob', 'john'];
+            nombres.indexOf('alex'); // returns 1
+            nombres.indexOf('rob'); // returns -1
+
+            /* 
+                Hay otro método lastIndexOf() esto ayuda a encontrar el índice de la última aparición de un elemento en un arreglo. 
+                Como indexOf(), lastIndexOf() también regresa -1 cuando el elemento no es encontrado.
+            */
+            nombres.indexOf('tom'); // returns 0
+            nombres.lastIndexOf('tom'); // returns 3
+            /* 
+                El método reverse() reserva la posición del elemento en un arreglo entonces el último elemento va en 
+                la primera posición y la primera en la última. El método reverse() modifica el arreglo original.
+             */
+             nombres.reverse(); // returns ["bob", "alex", "tom"]
+
+            /* 
+                El método sort() convierte a un String cada elemento de un arreglo y luego los ordena. El orden de clasificación 
+                predeterminado es ascendente. El método sort () cambia la matriz original.
+                El método sort () acepta una función de comparación opcional como argumento. Puedes escribir una 
+                función de comparación y pasar al método sort () para anular el comportamiento de clasificación 
+                predeterminado
+            */
+            nombres.sort(); // returns ['alex', 'bob', 'john', 'tom']
+            
+            const numeros = [23, 5, 100, 56, 9, 13, 37, 10, 1]
+
+            function ascendingComp(a, b){
+                return (a-b);
+            }
+            numeros.sort(ascendingComp); // retruns [1, 5, 9, 10, 13, 23, 37, 56, 100]
+
+            /* 
+
+            También podemos codificarlo como,
+
+            numeros.sort(function(a, b) {
+            return (a-b);
+            });
+
+            O,  con la funcion arrow,
+
+            numeros.sort((a, b) => (a-b));
+
+            */
+            numeros.sort((a, b) => (b-a)); // Para el orden descendente
+
+            /* 
+                El método splice() ayuda a añadir, actualizar, y remover elementos de un arreglo. 
+                El propósito principal del método splice() es eliminar elementos de un arreglo. 
+                Regresa un arreglo con los elementos borrados y modifica el arreglo original. 
+                Pero puedes añadir y remplazar elementos usándolo.
+
+                Para añadir un elemento usando el método splice(), necesitamos pasar la posición donde queremos 
+                añadir el nuevo elemento,  cuantos elementos se van a borrar, en este caso cero, y por
+                ultimo el elemento que vamos a añadir.
+            */
+
+            const nombres2 = ['tom', 'alex', 'bob'];
+
+            nombres2.splice(1, 0, 'zack');
+
+            console.log(nombres2); // ["tom", "zack", "alex", "bob"]
+
+            /* 
+                Aqui estamos eliminando un elemento del indice 2 (el tercer elemento) y añadiendo un nuevo elemento, 
+                zack. El  método splice() regresa un arreglo con el elemento eliminado, bob.
+             */
+
+            const nombres3 = ['tom', 'alex', 'bob'];
+
+            const deleted = nombres3.splice(2, 1, 'zack');
+
+            console.log(deleted); // ["bob"]
+            console.log(nombres3); // ["tom", "alex", "zack"]
+            /* 
+                document.getElementsByTagName('li').forEach(() => {
+                    // Do something here..
+                })
+                Esto nos da un error!!
+
+                ¿Pero por qué? Por qué la el HTMLCollection no es un arreglo. Es un objeto Array. 
+                Entonces tu no puedes iterar sobre él usando forEach.
+
+                Para esto usamos el método Array.from() el cual convierte el objeto tipo arreglo a un arreglo
+                para que así podamos realizar todas las operaciones de arreglo en el.
+             */
+
+            const collection = Array.from(document.getElementsByTagName('li'))
+            
+            console.log(collection); // => [li, li, li, li, li, li, li, li, li, li]
+
+            /* 
+                El método Array.of() crea un nuevo arreglo usando cualquier número de elementos de cualquier tipo.
+             */
+
+            Array.of(2, false, 'test', {'name': 'Alex'}, [1,2])
+
+            /* 
+                Iteracion de arreglos
+            */
+
+            let students = [
+            {
+                'id': 001,
+                'f_nombre': 'Alex',
+                'l_nombre': 'B',
+                'genero': 'M',
+                'casado': false,
+                'edad': 22,
+                'paga': 250,  
+                'cursos': ['JavaScript', 'React']
+            },
+            {
+                'id': 002,
+                'f_nombre': 'Ibrahim',
+                'l_nombre': 'M',
+                'genero': 'M',
+                'casado': true,
+                'edad': 32,
+                'paga': 150,  
+                'cursos': ['JavaScript', 'PWA']
+            },
+            {
+                'id': 003,
+                'f_nombre': 'Rubi',
+                'l_nombre': 'S',
+                'genero': 'F',
+                'casado': false,
+                'edad': 27,
+                'paga': 350,  
+                'cursos': ['Blogging', 'React', 'UX']
+            },
+            {
+                'id': 004,
+                'f_nombre': 'Zack',
+                'l_nombre': 'F',
+                'genero': 'M',
+                'casado': true,
+                'edad': 36,
+                'paga': 250,  
+                'cursos': ['Git', 'React', 'Branding']
+            } 
+            ];
+
+            /* 
+                filter() este método crea un nuevo arreglo con todos los elementos que satisfagan la condición 
+                mencionada en la función. Vamos a encontrar el estudiante que es femenino. Entonces la condición 
+                de filtro debería ser que el genero sea igual a 'F'.
+             */
+
+            const femaleStudents = students.filter((element, index) => {
+                return element.genero === 'F';
+            })
+
+            console.log(femaleStudents);
+
+            /* 
+                El método map()  crea un nuevo arreglo iterando a través de los elementos y aplicando la lógica 
+                que proveemos en la función como argumento. Vamos a crear un nuevo arreglo de los nombres completos 
+                de todos los estudiantes en el arreglo de students.
+            */
+
+            const fullNames = students.map((element, index) => {
+                return (fullName = element.f_nombre + ' ' + element.l_nombre)
+            });
+
+            console.log(fullNames);
+
+            /* 
+                El método reduce() aplica la función reducer de cada elemento del arreglo y regresa el resultado. 
+                Vamos a aplicar la función reduce() en el arreglo students para calcular la cantidad total a 
+                pagar por todos los estudiantes.
+             */
+
+            const total = students.reduce(
+            (accumulator, student, currentIndex, array) => {
+                accumulator = accumulator + student.paga;
+                return (accumulator);
+            }, 0);
+
+            console.log(total); // 1000
+
+            /* 
+                Iniciamos con el  accumulator con  0.
+                Aplicamos el método reduce en cada uno de los objetos student.  
+                Accedemos la propiedad paga y la añadimos al accumulator.
+                Finalmente regresaremos el accumulator.
+             */
+
+            /* 
+                El método some() regresa un valor booleano (verdadero/falso) basado en que si al menos 
+                en un elemento del arreglo la condición en la función se cumple. A ver si ahí hay 
+                algún estudiante menor de 30 años de edad.
+            */
+
+            let hasStudentBelow30 = students.some((element, index) => {
+                return element.edad < 30;
+            });
+
+            console.log(hasStudentBelow30); // true
+
+            /* 
+                Usando el metodo some(), tenemos que ver si hay algún estudiante debajo de la edad de 30 años. 
+                Vamos a encontrar que estudiante es.
+                Para hacer eso, usaremos el método find(). Este regresa el primer elemento encontrado del 
+                arreglo que satisface la condición de la función.
+                Los arreglos tienen otro metodo relacionado, findIndex(), eso regresa el índice del elemento que 
+                encontramos usando el método find(). Si no hay elementos que cumplan la condición el findIndex() 
+                regresa -1.
+
+             */
+
+            const estudiante = students.find((element, index) => {
+                return element.edad < 30;
+            });
+
+            console.log(estudiante);
+
+            /* 
+                El método every() detecta si cada  elemento del arreglo satisface la condición pasada en la función. 
+                Vamos a encontrar si todos los estudiantes que se han suscrito al menos dos cursos.
+             */
+
+            const atLeastTwoCourses = students.every((elements, index) => {
+                return elements.cursos.length >= 2;
+            });
+
+            console.log(atLeastTwoCourses); // true
+
+            /* 
+                Con la inclusión del método at(), tú podrás acceder a los elementos usando ambos índices
+                positivo y negativo con un solo método.
+             */
+
+
+            const junkFoodILove = ['🥖', '🍔', '🍟', '🍕', '🌭', '🥪', '🌮', '🍿'];
+
+            junkFoodILove.at(0); // 🥖
+            junkFoodILove.at(3); // 🍕
+            junkFoodILove.at(-1); // 🍿
+            junkFoodILove.at(-5); // 🍕
+            junkFoodILove.at(-8); // 🥖
+            junkFoodILove.at(10); // undefined
+        </script>
+    </body>
+</html>
